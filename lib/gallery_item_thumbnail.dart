@@ -10,20 +10,25 @@ class GalleryItemThumbnail extends StatelessWidget {
   final Widget? loadingWidget;
   final Widget? errorWidget;
   final double radius;
+  final Function(GalleryItemModel galleryItem)? onLongPress;
 
-  const GalleryItemThumbnail(
-      {Key? key,
-      required this.galleryItem,
-      required this.onTap,
-      required this.radius,
-      required this.loadingWidget,
-      required this.errorWidget})
-      : super(key: key);
+  const GalleryItemThumbnail({
+    super.key,
+    required this.galleryItem,
+    required this.onTap,
+    required this.radius,
+    required this.loadingWidget,
+    required this.errorWidget,
+    this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: () {
+        if (onLongPress != null) onLongPress!(galleryItem);
+      },
       child: Hero(
         tag: galleryItem.id,
         child: AppCachedNetworkImage(

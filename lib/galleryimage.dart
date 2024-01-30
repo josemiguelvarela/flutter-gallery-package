@@ -29,10 +29,14 @@ class GalleryImage extends StatefulWidget {
   final bool showAppBar;
   final bool closeWhenSwipeUp;
   final bool closeWhenSwipeDown;
+  final Function(GalleryItemModel galleryItem)? onLongPress;
+  final AppBar? appBar;
+  final List<Widget>? imagesDescriptions;
 
   const GalleryImage({
-    Key? key,
+    super.key,
     required this.imageUrls,
+    this.imagesDescriptions,
     this.titleGallery,
     this.childAspectRatio = 1,
     this.crossAxisCount = 3,
@@ -53,8 +57,9 @@ class GalleryImage extends StatefulWidget {
     this.showAppBar = true,
     this.closeWhenSwipeUp = false,
     this.closeWhenSwipeDown = false,
-  })  : assert(numOfShowImages <= imageUrls.length),
-        super(key: key);
+    this.onLongPress,
+    this.appBar,
+  }) : assert(numOfShowImages <= imageUrls.length);
   @override
   State<GalleryImage> createState() => _GalleryImageState();
 }
@@ -95,6 +100,7 @@ class _GalleryImageState extends State<GalleryImage> {
                       loadingWidget: widget.loadingWidget,
                       errorWidget: widget.errorWidget,
                       radius: widget.imageRadius,
+                      onLongPress: widget.onLongPress,
                     );
             });
   }
@@ -160,6 +166,7 @@ class _GalleryImageState extends State<GalleryImage> {
           closeWhenSwipeUp: widget.closeWhenSwipeUp,
           closeWhenSwipeDown: widget.closeWhenSwipeDown,
           radius: widget.imageRadius,
+          appBar: widget.appBar,
         ),
       ),
     );
@@ -170,7 +177,12 @@ class _GalleryImageState extends State<GalleryImage> {
     galleryItems.clear();
     for (var item in items) {
       galleryItems.add(
-        GalleryItemModel(id: item, imageUrl: item, index: items.indexOf(item)),
+        GalleryItemModel(
+          id: item,
+          imageUrl: item,
+          index: items.indexOf(item),
+          imageDescription: widget.imagesDescriptions?[items.indexOf(item)],
+        ),
       );
     }
   }

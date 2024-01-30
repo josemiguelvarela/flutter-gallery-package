@@ -1,7 +1,7 @@
 name: galleryimage
 description: Flutter plugin that list of images from URLs allows you to display
   and zoomable multi image on iOS and Android.
-version: 2.0.1
+version: 2.0.2
 homepage: https://github.com/BeshoyMelika/flutter-gallery-package
 
 environment:
@@ -10,10 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 

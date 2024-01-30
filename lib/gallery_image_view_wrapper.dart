@@ -7,8 +7,8 @@ import 'gallery_item_model.dart';
 class GalleryImageViewWrapper extends StatefulWidget {
   final Color? backgroundColor;
   final int? initialIndex;
-  final List<GalleryItemModel> galleryItems;
   final String? titleGallery;
+  final List<GalleryItemModel> galleryItems;
   final Widget? loadingWidget;
   final Widget? errorWidget;
   final double minScale;
@@ -19,9 +19,10 @@ class GalleryImageViewWrapper extends StatefulWidget {
   final bool showAppBar;
   final bool closeWhenSwipeUp;
   final bool closeWhenSwipeDown;
+  final AppBar? appBar;
 
   const GalleryImageViewWrapper({
-    Key? key,
+    super.key,
     required this.titleGallery,
     required this.backgroundColor,
     required this.initialIndex,
@@ -36,7 +37,8 @@ class GalleryImageViewWrapper extends StatefulWidget {
     required this.showAppBar,
     required this.closeWhenSwipeUp,
     required this.closeWhenSwipeDown,
-  }) : super(key: key);
+    this.appBar,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -70,9 +72,10 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.showAppBar
-          ? AppBar(
-              title: Text(widget.titleGallery ?? "Gallery"),
-            )
+          ? widget.appBar ??
+              AppBar(
+                title: Text(widget.titleGallery ?? "Gallery"),
+              )
           : null,
       backgroundColor: widget.backgroundColor,
       body: SafeArea(
@@ -99,8 +102,17 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                     reverse: widget.reverse,
                     controller: _controller,
                     itemCount: widget.galleryItems.length,
-                    itemBuilder: (context, index) =>
-                        _buildImage(widget.galleryItems[index]),
+                    itemBuilder: (context, index) {
+                      GalleryItemModel galleryItem = widget.galleryItems[index];
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildImage(galleryItem),
+                          if (galleryItem.imageDescription != null)
+                            galleryItem.imageDescription!,
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),

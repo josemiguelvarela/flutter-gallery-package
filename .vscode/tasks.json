@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "fixCocoaPodsM",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/ios\npod repo remove trunk\nsudo arch -x86_64 gem install ffi\narch -x86_64 pod install --repo-update"
+    }
+  ]
+}

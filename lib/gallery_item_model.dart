@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
+
 class GalleryItemModel {
   GalleryItemModel({
     required this.id,
     required this.imageUrl,
     required this.index,
+    this.imageDescription,
   });
   // index in list of image
   final int index;
@@ -10,4 +13,6 @@ class GalleryItemModel {
   final String id;
   // image url
   final String imageUrl;
+  // image description
+  final Widget? imageDescription;
 }
