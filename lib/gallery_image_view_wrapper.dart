@@ -19,7 +19,8 @@ class GalleryImageViewWrapper extends StatefulWidget {
   final bool showAppBar;
   final bool closeWhenSwipeUp;
   final bool closeWhenSwipeDown;
-  final AppBar? appBar;
+  final Icon? appBarMoreActionsIcon;
+  final Function(GalleryItemModel galleryItem)? onAppBarMoreActionsPressed;
 
   const GalleryImageViewWrapper({
     super.key,
@@ -37,7 +38,8 @@ class GalleryImageViewWrapper extends StatefulWidget {
     required this.showAppBar,
     required this.closeWhenSwipeUp,
     required this.closeWhenSwipeDown,
-    this.appBar,
+    this.appBarMoreActionsIcon,
+    this.onAppBarMoreActionsPressed,
   });
 
   @override
@@ -72,10 +74,10 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.showAppBar
-          ? widget.appBar ??
-              AppBar(
-                title: Text(widget.titleGallery ?? "Gallery"),
-              )
+          ? AppBar(
+              title: Text(widget.titleGallery ?? "Gallery"),
+              actions: _addAppBarMoreActions(),
+            )
           : null,
       backgroundColor: widget.backgroundColor,
       body: SafeArea(
@@ -133,6 +135,22 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
         ),
       ),
     );
+  }
+
+  List<Widget> _addAppBarMoreActions() {
+    if (widget.appBarMoreActionsIcon != null &&
+        widget.onAppBarMoreActionsPressed != null) {
+      return [
+        IconButton(
+          icon: widget.appBarMoreActionsIcon!,
+          onPressed: () {
+            widget
+                .onAppBarMoreActionsPressed!(widget.galleryItems[_currentPage]);
+          },
+        ),
+      ];
+    }
+    return [];
   }
 
 // build image with zooming

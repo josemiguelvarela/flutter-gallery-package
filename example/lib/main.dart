@@ -81,16 +81,9 @@ class MyHomePage extends StatelessWidget {
                     debugPrint(
                         "Long press on image ${galleryItem.index} : ${galleryItem.imageUrl}");
                   },
-                  appBar: AppBar(
-                    title: Text("Gallery"),
-                    actions: [
-                      IconButton(
-                        icon: Icon(Icons.more_horiz),
-                        onPressed: () =>
-                            debugPrint("AppBar action button pressed"),
-                      ),
-                    ],
-                  ),
+                  appBarMoreActionsIcon: Icon(Icons.more_horiz),
+                  onAppBarMoreActionsPressed: (galleryItem) => debugPrint(
+                      "AppBar action button pressed ${galleryItem.imageUrl}"),
                 ),
               ),
             ],
