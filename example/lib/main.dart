@@ -100,7 +100,7 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  static Widget _buildImageDescription(String text) {
+  Widget _buildImageDescription(String text) {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Text(
