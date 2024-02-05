@@ -143,10 +143,9 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
       return [
         IconButton(
           icon: widget.appBarMoreActionsIcon!,
-          onPressed: () {
-            widget
-                .onAppBarMoreActionsPressed!(widget.galleryItems[_currentPage]);
-          },
+          onPressed: () => widget.onAppBarMoreActionsPressed!(
+              widget.galleryItems[
+                  _controller.page?.toInt() ?? widget.initialIndex ?? 0]),
         ),
       ];
     }
