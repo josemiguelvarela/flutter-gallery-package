@@ -33,6 +33,7 @@ class GalleryImage extends StatefulWidget {
   final Icon? appBarMoreActionsIcon;
   final Function(GalleryItemModel galleryItem)? onAppBarMoreActionsPressed;
   final List<Widget>? imagesDescriptions;
+  final BuildContext? onThumbnailPressedContext;
 
   const GalleryImage({
     super.key,
@@ -61,6 +62,7 @@ class GalleryImage extends StatefulWidget {
     this.onLongPress,
     this.appBarMoreActionsIcon,
     this.onAppBarMoreActionsPressed,
+    this.onThumbnailPressedContext,
   }) : assert(numOfShowImages <= imageUrls.length);
   @override
   State<GalleryImage> createState() => _GalleryImageState();
@@ -151,7 +153,7 @@ class _GalleryImageState extends State<GalleryImage> {
 // to open gallery image in full screen
   Future<void> _openImageFullScreen(int indexOfImage) async {
     await Navigator.push(
-      context,
+      widget.onThumbnailPressedContext ?? context,
       MaterialPageRoute(
         builder: (context) => GalleryImageViewWrapper(
           titleGallery: widget.titleGallery,
