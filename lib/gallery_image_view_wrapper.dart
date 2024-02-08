@@ -106,12 +106,16 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                     itemCount: widget.galleryItems.length,
                     itemBuilder: (context, index) {
                       GalleryItemModel galleryItem = widget.galleryItems[index];
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      return Stack(
                         children: [
                           _buildImage(galleryItem),
                           if (galleryItem.imageDescription != null)
-                            galleryItem.imageDescription!,
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: galleryItem.imageDescription!,
+                            ),
                         ],
                       );
                     },
