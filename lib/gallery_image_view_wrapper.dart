@@ -21,6 +21,7 @@ class GalleryImageViewWrapper extends StatefulWidget {
   final bool closeWhenSwipeDown;
   final Icon? appBarMoreActionsIcon;
   final Function(GalleryItemModel galleryItem)? onAppBarMoreActionsPressed;
+  final bool hideEverythingElseOnImagePressed;
 
   const GalleryImageViewWrapper({
     super.key,
@@ -40,6 +41,7 @@ class GalleryImageViewWrapper extends StatefulWidget {
     required this.closeWhenSwipeDown,
     this.appBarMoreActionsIcon,
     this.onAppBarMoreActionsPressed,
+    required this.hideEverythingElseOnImagePressed,
   });
 
   @override
@@ -52,6 +54,9 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   late final PageController _controller =
       PageController(initialPage: widget.initialIndex ?? 0);
   int _currentPage = 0;
+  late bool _showListInGalley;
+  bool _showDescription = true;
+  late bool _hideAppBar;
 
   @override
   void initState() {
@@ -61,6 +66,8 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
         _currentPage = _controller.page?.toInt() ?? 0;
       });
     });
+    _showListInGalley = widget.showListInGalley;
+    _hideAppBar = widget.showAppBar;
     super.initState();
   }
 
@@ -73,7 +80,7 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.showAppBar
+      appBar: _hideAppBar
           ? AppBar(
               title: Text(widget.titleGallery ?? "Gallery"),
               actions: _addAppBarMoreActions(),
@@ -109,7 +116,8 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                       return Stack(
                         children: [
                           _buildImage(galleryItem),
-                          if (galleryItem.imageDescription != null)
+                          if (galleryItem.imageDescription != null &&
+                              _showDescription)
                             Positioned(
                               bottom: 0,
                               left: 0,
@@ -122,7 +130,7 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                   ),
                 ),
               ),
-              if (widget.showListInGalley)
+              if (_showListInGalley)
                 SizedBox(
                   height: 80,
                   child: SingleChildScrollView(
@@ -163,12 +171,23 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
       child: InteractiveViewer(
         minScale: widget.minScale,
         maxScale: widget.maxScale,
-        child: Center(
-          child: AppCachedNetworkImage(
-            imageUrl: item.imageUrl,
-            loadingWidget: widget.loadingWidget,
-            errorWidget: widget.errorWidget,
-            radius: widget.radius,
+        child: GestureDetector(
+          onTap: () {
+            if (widget.hideEverythingElseOnImagePressed) {
+              setState(() {
+                _showDescription = !_showDescription;
+                _showListInGalley = !_showListInGalley;
+                _hideAppBar = !_hideAppBar;
+              });
+            }
+          },
+          child: Center(
+            child: AppCachedNetworkImage(
+              imageUrl: item.imageUrl,
+              loadingWidget: widget.loadingWidget,
+              errorWidget: widget.errorWidget,
+              radius: widget.radius,
+            ),
           ),
         ),
       ),

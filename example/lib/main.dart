@@ -87,6 +87,7 @@ class MyHomePage extends StatelessWidget {
                   appBarMoreActionsIcon: Icon(Icons.more_horiz),
                   onAppBarMoreActionsPressed: (galleryItem) => debugPrint(
                       "AppBar action button pressed ${galleryItem.imageUrl}"),
+                  hideEverythingElseOnImagePressed: true,
                 ),
               ),
             ],

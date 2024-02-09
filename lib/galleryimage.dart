@@ -34,6 +34,7 @@ class GalleryImage extends StatefulWidget {
   final Function(GalleryItemModel galleryItem)? onAppBarMoreActionsPressed;
   final List<Widget>? imagesDescriptions;
   final BuildContext? onThumbnailPressedContext;
+  final bool hideEverythingElseOnImagePressed;
 
   const GalleryImage({
     super.key,
@@ -63,6 +64,7 @@ class GalleryImage extends StatefulWidget {
     this.appBarMoreActionsIcon,
     this.onAppBarMoreActionsPressed,
     this.onThumbnailPressedContext,
+    this.hideEverythingElseOnImagePressed = false,
   }) : assert(numOfShowImages <= imageUrls.length);
   @override
   State<GalleryImage> createState() => _GalleryImageState();
@@ -172,6 +174,8 @@ class _GalleryImageState extends State<GalleryImage> {
           radius: widget.imageRadius,
           appBarMoreActionsIcon: widget.appBarMoreActionsIcon,
           onAppBarMoreActionsPressed: widget.onAppBarMoreActionsPressed,
+          hideEverythingElseOnImagePressed:
+              widget.hideEverythingElseOnImagePressed,
         ),
       ),
     );
