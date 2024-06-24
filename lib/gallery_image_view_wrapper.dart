@@ -132,15 +132,15 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
               ),
               if (_showListInGalley)
                 SizedBox(
-                  height: 80,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: widget.galleryItems
-                          .map((e) => _buildLitImage(e))
-                          .toList(),
-                    ),
-                  ),
+                    height: 80,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.galleryItems.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final e = widget.galleryItems[index];
+                        return _buildLitImage(e);
+                      },
+                    )
                 ),
             ],
           ),
